@@ -15,6 +15,7 @@ error_reporting(E_ALL);
 	<link rel="stylesheet" href="./diseño/css/fontawesome-all.min.css">
 	<link rel="stylesheet" href="./diseño/css/2.css">
 	<link rel="stylesheet" href="./diseño/css/estilo.css">
+	
 </head>
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -27,8 +28,8 @@ error_reporting(E_ALL);
 					<li><a href="../empleado/listar.php">Productos</a></li>
 					<li><a href="../empleado/vender.php">Vender</a></li>
 					<li><a href="../empleado/ventas.php">Ventas</a></li>
+					<li><a href="../empleado/listar_almacenes.php">Administrar Almacenes</a></li>
 					<li><a href="../empleado/logout.php">Cerrar Sesion</a></li>
-					
 				</ul>
 			</div>
 		</div>

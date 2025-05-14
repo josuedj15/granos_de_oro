@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $_SESSION['usuario_id'] = $usuario['id'];
                 $_SESSION['usuario_nombre'] = $usuario['nombre'];
                 $_SESSION['usuario_rol'] = $usuario['rol'];
-                 // Guardar el rol en la sesión
+                // Guardar el rol en la sesión
 
                 // Redirigir según el rol
                 switch ($usuario['rol']) {
@@ -53,7 +53,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             header('Location: login.php?error=Correo electrónico o contraseña incorrectos.');
             exit;
         }
-
     } catch (PDOException $e) {
         // Error al consultar la base de datos
         header('Location: login.php?error=Error al iniciar sesión: ' . $e->getMessage());
@@ -64,4 +63,3 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     header('Location: login.php');
     exit;
 }
-?>

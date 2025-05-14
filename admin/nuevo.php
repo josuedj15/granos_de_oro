@@ -5,14 +5,12 @@ error_reporting(E_ALL);
 
 #Salir si alguno de los datos básicos del producto no está presente
 if (
-    !isset($_POST["nombre"]) ||
-    !isset($_POST["descripcion"]) ||
-    !isset($_POST["precio_compra"]) ||
-    !isset($_POST["precio_venta"]) ||
-    !isset($_POST["unidad_medida"]) ||
-    !isset($_POST["stock"]) // Asegúrate de que el stock también esté presente  
-    ||
-    !isset($_POST["stock"][0]) // Asegúrate de que al menos un almacén tenga stock  
+    !isset($_POST["nombre"]) || empty($_POST["nombre"]) ||
+    !isset($_POST["descripcion"]) || empty($_POST["descripcion"]) ||
+    !isset($_POST["precio_compra"]) || empty($_POST["precio_compra"]) ||
+    !isset($_POST["precio_venta"]) || empty($_POST["precio_venta"]) ||
+    !isset($_POST["unidad_medida"]) || empty($_POST["unidad_medida"]) ||
+    !isset($_POST["stock"]) || !is_array($_POST["stock"])
 ) {
     exit("Error: Faltan datos del producto.");
 }
@@ -38,7 +36,7 @@ try {
         // Insertar el stock inicial en la tabla stock_almacen
         $sentencia_stock = $conexion->prepare("INSERT INTO stock_almacen (producto_id, almacen_id, stock) VALUES (?, ?, ?)");
         foreach ($stock_almacenes as $almacen_id => $stock) {
-            if ($stock > 0) { // Insertar solo si hay stock inicial
+            if (isset($almacen_id) && is_numeric($almacen_id) && isset($stock) && is_numeric($stock) && $stock > 0) { // Verificar que los datos del stock sean válidos
                 $sentencia_stock->execute([$id_producto, $almacen_id, $stock]);
             }
         }

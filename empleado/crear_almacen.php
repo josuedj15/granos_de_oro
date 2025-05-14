@@ -1,9 +1,10 @@
 <?php
 session_start();
-if (!isset($_SESSION['usuario_rol']) || $_SESSION['usuario_rol'] !== 'admin') {
+if (!isset($_SESSION['usuario_rol']) || $_SESSION['usuario_rol'] !== 'empleado') {
     header("Location: ../login/login.php");
     exit();
 }
+
 include_once "./diseño/encabezado.php";
 ?>
 

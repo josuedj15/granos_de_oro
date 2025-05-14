@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (!isset($_SESSION['usuario_rol']) || $_SESSION['usuario_rol'] !== 'admin') {
-    header("Location: ../login.php");
+    header("Location: ../login/login.php");
     exit();
 }
 
@@ -34,11 +34,9 @@ try {
     // Luego, insertar los nuevos registros de stock
     $sentencia_insertar_stock = $conexion->prepare("INSERT INTO stock_almacen (producto_id, almacen_id, stock) VALUES (?, ?, ?)");
     foreach ($stock_almacenes as $almacen_id => $stock) {
-        $resultado_insertar_stock = $sentencia_insertar_stock->execute([$id_producto, $almacen_id, $stock]);
-        // Es posible que la depuración esté aquí dentro del bucle
-        // var_dump($almacen_id);
-        // var_dump($resultado_insertar_stock);
-        // var_dump($stock);
+        if (isset($almacen_id) && is_numeric($almacen_id) && isset($stock) && is_numeric($stock)) {
+            $resultado_insertar_stock = $sentencia_insertar_stock->execute([$id_producto, $almacen_id, $stock]);
+        }
     }
 
     $conexion->commit();

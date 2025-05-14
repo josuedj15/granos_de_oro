@@ -15,6 +15,7 @@ error_reporting(E_ALL);
 	<link rel="stylesheet" href="./diseño/css/fontawesome-all.min.css">
 	<link rel="stylesheet" href="./diseño/css/2.css">
 	<link rel="stylesheet" href="./diseño/css/estilo.css">
+	
 </head>
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
