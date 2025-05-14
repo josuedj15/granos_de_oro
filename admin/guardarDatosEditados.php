@@ -1,38 +1,52 @@
 <?php
+session_start();
+if (!isset($_SESSION['usuario_rol']) || $_SESSION['usuario_rol'] !== 'admin') {
+    header("Location: ../login.php");
+    exit();
+}
 
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
-
-#Salir si alguno de los datos no está presente
-if(
-	!isset($_POST["nombre"]) || 
-	!isset($_POST["descripcion"]) || 
-	!isset($_POST["precio_compra"]) || 
-	!isset($_POST["precio_venta"]) || 
-	!isset($_POST["stock"]) ||
-	!isset($_POST["unidad_medida"]) ||
-	!isset($_POST["id"])
-) exit();
-
-#Si todo va bien, se ejecuta esta parte del código...
+if (!isset($_POST["id"]) || !isset($_POST["nombre"]) || !isset($_POST["precio_compra"]) || !isset($_POST["precio_venta"]) || !isset($_POST["unidad_medida"])) {
+    header("Location: ./listar.php");
+    exit();
+}
 
 include_once "../base/conexion.php";
-$id = $_POST["id"];
+$id_producto = $_POST["id"];
 $nombre = $_POST["nombre"];
 $descripcion = $_POST["descripcion"];
 $precio_compra = $_POST["precio_compra"];
 $precio_venta = $_POST["precio_venta"];
-$stock = $_POST["stock"];
 $unidad_medida = $_POST["unidad_medida"];
+$stock_almacenes = $_POST["stock"] ?? [];
 
-$sentencia = $conexion->prepare("UPDATE productos SET nombre = ?, descripcion = ?, precio_compra = ?, precio_venta = ?, stock = ?, unidad_medida = ? WHERE id = ?;");
-$resultado = $sentencia->execute([$nombre, $descripcion, $precio_compra, $precio_venta, $stock, $unidad_medida,  $id]);
+try {
+    $conexion->beginTransaction();
 
-if($resultado === TRUE){
-	header("Location: ./listar.php");
-	exit;
+    // Actualizar la información básica del producto
+    $sentencia_producto = $conexion->prepare("UPDATE productos SET nombre = ?, descripcion = ?, precio_compra = ?, precio_venta = ?, unidad_medida = ? WHERE id = ?");
+    $resultado_producto = $sentencia_producto->execute([$nombre, $descripcion, $precio_compra, $precio_venta, $unidad_medida, $id_producto]);
+
+    // Actualizar el stock en los almacenes
+    // Primero, eliminar los registros de stock existentes para este producto
+    $sentencia_eliminar_stock = $conexion->prepare("DELETE FROM stock_almacen WHERE producto_id = ?");
+    $resultado_eliminar_stock = $sentencia_eliminar_stock->execute([$id_producto]);
+
+    // Luego, insertar los nuevos registros de stock
+    $sentencia_insertar_stock = $conexion->prepare("INSERT INTO stock_almacen (producto_id, almacen_id, stock) VALUES (?, ?, ?)");
+    foreach ($stock_almacenes as $almacen_id => $stock) {
+        $resultado_insertar_stock = $sentencia_insertar_stock->execute([$id_producto, $almacen_id, $stock]);
+        // Es posible que la depuración esté aquí dentro del bucle
+        // var_dump($almacen_id);
+        // var_dump($resultado_insertar_stock);
+        // var_dump($stock);
+    }
+
+    $conexion->commit();
+    header("Location: ./listar.php?mensaje=Producto actualizado correctamente");
+
+} catch (PDOException $e) {
+    $conexion->rollBack();
+    header("Location: ./editar.php?id=" . $id_producto . "&error=Error al actualizar el producto: " . $e->getMessage());
 }
-else echo "Algo salió mal. Por favor verifica que la tabla exista, así como el ID del producto";
+exit();
 ?>

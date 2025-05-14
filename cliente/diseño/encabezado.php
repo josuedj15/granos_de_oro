@@ -11,9 +11,9 @@ error_reporting(E_ALL);
 	<meta charset="UTF-8">
 	<title>Granos</title>
 	
-	<link rel="stylesheet" href="../css/fontawesome-all.min.css">
-	<link rel="stylesheet" href="../css/2.css">
-	<link rel="stylesheet" href="../css/estilo.css">
+	<link rel="stylesheet" href="./diseño/css/fontawesome-all.min.css">
+	<link rel="stylesheet" href="./diseño/css/2.css">
+	<link rel="stylesheet" href="./diseño/css/estilo.css">
 </head>
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">

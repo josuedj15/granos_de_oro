@@ -4,8 +4,8 @@ include_once "./diseño/encabezado.php";
 include_once "../base/conexion.php";
 
 // Verificar si el usuario ha iniciado sesión y es un cliente
-if (!isset($_SESSION['usuario_id']) || !isset($_SESSION['usuario_rol']) || $_SESSION['usuario_rol'] !== 'empleado') {
-    header("Location: ../login.php"); // Redirigir si no es cliente o no ha iniciado sesión
+if (!isset($_SESSION['usuario_id']) || !isset($_SESSION['usuario_rol']) || $_SESSION['usuario_rol'] !== 'admin') {
+    header("Location: ../login/login.php"); // Redirigir si no es cliente o no ha iniciado sesión
     exit();
 }
 

@@ -12,9 +12,9 @@ error_reporting(E_ALL);
 	<meta charset="UTF-8">
 	<title>Granos</title>
 	
-	<link rel="stylesheet" href="../css/fontawesome-all.min.css">
-	<link rel="stylesheet" href="../css/2.css">
-	<link rel="stylesheet" href="../css/estilo.css">
+	<link rel="stylesheet" href="./diseño/css/fontawesome-all.min.css">
+	<link rel="stylesheet" href="./diseño/css/2.css">
+	<link rel="stylesheet" href="./diseño/css/estilo.css">
 </head>
 <body>
 	<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -28,6 +28,7 @@ error_reporting(E_ALL);
 					<li><a href="../admin/vender.php">Vender</a></li>
 					<li><a href="../admin/ventas.php">Ventas</a></li>
 					<li><a href="../admin/listar_usuarios.php">Administrar Usuarios</a></li>
+					<li><a href="../admin/listar_almacenes.php">Administrar Almacenes</a></li>
 					<li><a href="../admin/logout.php">Cerrar Sesion</a></li>
 				</ul>
 			</div>

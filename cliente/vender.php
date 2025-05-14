@@ -16,7 +16,7 @@ $clientes = $sentenciaClientes->fetchAll(PDO::FETCH_OBJ);
 <div class="col-xs-12">
     <h1>Vender
         <small
-            class="form-text text-muted">Estás comprando como cliente: 
+            class="form-text text-muted">Estás comprando como: 
                 <?php echo $_SESSION['usuario_nombre'] .' id:'. $_SESSION['usuario_id'] ?>
         </small>
         
