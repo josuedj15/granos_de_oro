@@ -103,7 +103,7 @@ if (isset($_SESSION['usuario_id']) && isset($_SESSION['usuario_rol']) && $_SESSI
 						<th>Fecha</th>
 						<th>Productos vendidos</th>
 						<th>Total</th>
-						<th>Acciones</th>
+						<th class="no-imprimir">Acciones</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -143,7 +143,7 @@ if (isset($_SESSION['usuario_id']) && isset($_SESSION['usuario_rol']) && $_SESSI
 								</table>
 							</td>
 							<td><?php echo $venta->total ?></td>
-							<td>
+							<td class="no-imprimir">
 								<a href="./confirmarpago.php?id=<?php echo $venta->id; ?>" class="btn btn-primary">Ver Detalles de Pago</a>
 							</td>
 						</tr>

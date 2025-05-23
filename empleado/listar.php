@@ -62,7 +62,7 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
     }
     ?>
     <div>
-        <a class="btn btn-success" href="./nuevo.php">Nuevo <i class="fa fa-plus"></i></a>
+        <a class="btn btn-success" href="./formulario.php">Nuevo <i class="fa fa-plus"></i></a>
     </div>
     <br>
     <table class="table table-bordered">

@@ -7,9 +7,26 @@ error_reporting(E_ALL);
 ?>
 <?php
 include_once "../base/conexion.php";
-$sentencia = $conexion->query("SELECT * FROM productos;");
+
+
+// Consulta de productos (EXISTENTE)
+$sentencia = $conexion->query("SELECT
+    p.id,
+    p.nombre,
+    p.descripcion,
+    p.precio_compra,
+    p.precio_venta,
+    p.unidad_medida,
+    SUM(sa.stock) AS total_stock
+FROM
+    productos p
+LEFT JOIN
+    stock_almacen sa ON p.id = sa.producto_id
+GROUP BY
+    p.id, p.nombre, p.descripcion, p.precio_compra, p.precio_venta, p.unidad_medida;");
 $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 ?>
+
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
@@ -39,7 +56,7 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
 					<td><?php echo $producto->nombre ?></td>
 					<td><?php echo $producto->descripcion ?></td>
 					<td><?php echo $producto->precio_venta ?></td>
-					<td><?php echo $producto->stock . ' ' . $producto->unidad_medida ?></td>				
+					<td><?php echo $producto->total_stock . ' ' . $producto->unidad_medida ?></td>				
 				</tr>
 			<?php } ?>
 		</tbody>
