@@ -1,15 +1,20 @@
 <?php
 session_start();
-include_once "./diseño/encabezado.php";
+include_once "./diseño/encabezado.php"; // Ajusta la ruta si es necesario
 
-// Verificar si hay detalles de la venta en la sesión
+// *** Verificación de permisos para el cliente ***
+if (!isset($_SESSION['usuario_id']) || !isset($_SESSION['usuario_rol']) || $_SESSION['usuario_rol'] !== 'cliente') {
+    header("Location: ../login/login.php"); // Redirigir si no es cliente o no ha iniciado sesión
+    exit();
+}
+
 if (!isset($_SESSION["detalles_venta"])) {
-    header("Location: ./vender.php"); // Si no hay detalles, redirigir a la página de venta
+    header("Location: ./vender.php");
     exit;
 }
 
 $detallesVenta = $_SESSION["detalles_venta"];
-unset($_SESSION["detalles_venta"]); // Limpiar los detalles de la sesión para que no se muestren de nuevo accidentalmente
+unset($_SESSION["detalles_venta"]); // Limpiar los detalles de la sesión
 ?>
 
 <div class="col-xs-12">
@@ -30,10 +35,9 @@ unset($_SESSION["detalles_venta"]); // Limpiar los detalles de la sesión para q
             <tr>
                 <th>ID</th>
                 <th>Nombre</th>
-                <th>Descripción</th>
                 <th>Precio</th>
-                <th>Cantidad</th>
-                <th>Total</th>
+                <th>Cantidad Total</th>
+                <th>Origen(es)</th> <th>Total Producto</th>
             </tr>
         </thead>
         <tbody>
@@ -41,9 +45,24 @@ unset($_SESSION["detalles_venta"]); // Limpiar los detalles de la sesión para q
                 <tr>
                     <td><?php echo $producto["id"]; ?></td>
                     <td><?php echo $producto["nombre"]; ?></td>
-                    <td><?php echo $producto["descripcion"]; ?></td>
                     <td><?php echo $producto["precio_venta"]; ?></td>
                     <td><?php echo $producto["cantidad"] . " " . $producto["unidad_medida"]; ?></td>
+                    <td>
+                        <?php
+                        // Mostrar el nombre principal (ej. "Múltiples")
+                        echo htmlspecialchars($producto["almacen_origen_display"] ?? 'N/A');
+
+                        // Opcional: Mostrar el desglose detallado si hay múltiples fuentes
+                        if (isset($producto["fulfillment_breakdown"]) && count($producto["fulfillment_breakdown"]) > 1) {
+                            echo " (";
+                            $breakdowns = [];
+                            foreach ($producto["fulfillment_breakdown"] as $source) {
+                                $breakdowns[] = htmlspecialchars($source['cantidad']) . " de " . htmlspecialchars($source['almacen_nombre']);
+                            }
+                            echo implode(', ', $breakdowns) . ")";
+                        }
+                        ?>
+                    </td>
                     <td><?php echo $producto["total"]; ?></td>
                 </tr>
             <?php } ?>
@@ -66,9 +85,8 @@ unset($_SESSION["detalles_venta"]); // Limpiar los detalles de la sesión para q
         O a este numero de WhatsApp:
         <a href="https://wa.me/7751586346">7751586346</a>
     </p>
+    <a href="./vender.php" class="btn btn-primary">Realizar otra compra</a>
 
-
-    <p>¡Gracias por tu preferencia!</p>
 </div>
 
-<?php include_once "./diseño/pie.php"; ?>
+<?php include_once "./diseño/pie.php" ?>

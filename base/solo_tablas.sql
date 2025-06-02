@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: localhost
--- Tiempo de generación: 14-05-2025 a las 06:01:04
--- Versión del servidor: 8.0.41
+-- Tiempo de generación: 02-06-2025 a las 07:02:41
+-- Versión del servidor: 8.0.42
 -- Versión de PHP: 7.3.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -39,14 +39,6 @@ CREATE TABLE `almacenes` (
   `fecha_creacion` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Volcado de datos para la tabla `almacenes`
---
-
-INSERT INTO `almacenes` (`id`, `nombre`, `ubicacion`, `fecha_creacion`) VALUES
-(1, 'almacen 3', 'al costado de la laguna', '2025-05-13 23:27:46'),
-(2, 'almacen 1', 'en la entrada', '2025-05-13 23:27:57');
-
 -- --------------------------------------------------------
 
 --
@@ -59,17 +51,6 @@ CREATE TABLE `clientes` (
   `direccion` varchar(255) DEFAULT NULL,
   `telefono` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Volcado de datos para la tabla `clientes`
---
-
-INSERT INTO `clientes` (`id`, `direccion`, `telefono`) VALUES
-(2, 'Calle Falsa 123', '55-1234-5678'),
-(6, NULL, NULL),
-(8, '', ''),
-(10, '', ''),
-(12, 'Villas', '7751586346');
 
 -- --------------------------------------------------------
 
@@ -99,15 +80,15 @@ CREATE TABLE `empleados` (
   `rol_empleado` enum('gestor_almacen','ventas','reportes') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+-- --------------------------------------------------------
+
 --
--- Volcado de datos para la tabla `empleados`
+-- Estructura de tabla para la tabla `password_resets`
 --
 
-INSERT INTO `empleados` (`id`, `rol_empleado`) VALUES
-(3, 'ventas'),
-(4, 'gestor_almacen');
 
 -- --------------------------------------------------------
+
 --
 -- Estructura de tabla para la tabla `productos`
 --
@@ -119,21 +100,8 @@ CREATE TABLE `productos` (
   `descripcion` text,
   `precio_compra` decimal(10,2) NOT NULL,
   `precio_venta` decimal(10,2) NOT NULL,
-  `stock` int ,
   `unidad_medida` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Volcado de datos para la tabla `productos`
---
-
-INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `precio_compra`, `precio_venta`, `stock`, `unidad_medida`) VALUES
-(1, 'Arroz Blanco', 'Arroz de grano largo', '15.00', '25.00', 426, 'kg'),
-(2, 'Frijol Negro', 'Frijol de la mejor calidad', '12.50', '65.00', 631, 'kg'),
-(4, 'arroz', 'jazmin chino ', '15.36', '36.58', 63, 'kg'),
-(5, 'Frijol Negro', 'frijol bayo', '23.60', '30.50', 420, 'kg'),
-(7, 'cebada', 'cebada', '12.30', '23.50', 210, 'kg'),
-(8, 'Frijol Negro', '500 gr', '30.00', '30.00', 3, '50');
 
 -- --------------------------------------------------------
 
@@ -148,29 +116,6 @@ CREATE TABLE `productos_vendidos` (
   `cantidad` bigint UNSIGNED NOT NULL,
   `id_venta` bigint UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
-
---
--- Volcado de datos para la tabla `productos_vendidos`
---
-
-INSERT INTO `productos_vendidos` (`id`, `id_producto`, `cantidad`, `id_venta`) VALUES
-(0, 1, 100, 8),
-(0, 1, 65, 9),
-(0, 1, 1, 10),
-(0, 1, 98, 14),
-(0, 5, 4000, 15),
-(NULL, 5, 100, 21),
-(NULL, 5, 99, 22),
-(NULL, 4, 98, 22),
-(NULL, 5, 56, 23),
-(NULL, 4, 101, 24),
-(NULL, 7, 10, 25),
-(NULL, 1, 10, 26),
-(NULL, 2, 23, 27),
-(NULL, 4, 1, 28),
-(NULL, 7, 22, 29),
-(NULL, 7, 3, 30),
-(NULL, 5, 325, 31);
 
 -- --------------------------------------------------------
 
@@ -187,24 +132,6 @@ CREATE TABLE `stock_almacen` (
   `ultima_actualizacion` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Volcado de datos para la tabla `stock_almacen`
---
-
-INSERT INTO `stock_almacen` (`id`, `producto_id`, `almacen_id`, `stock`) VALUES
-(13, 8, 1, 123),
-(14, 8, 2, 0),
-(15, 2, 1, 123),
-(16, 2, 2, 12),
-(17, 7, 1, 300),
-(18, 7, 2, 1200),
-(25, 1, 1, 112),
-(26, 1, 2, 0),
-(27, 4, 1, 3),
-(28, 4, 2, 123),
-(29, 5, 1, 123),
-(30, 5, 2, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -220,9 +147,6 @@ CREATE TABLE `usuarios` (
   `rol` enum('admin','cliente','empleado') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Volcado de datos para la tabla `usuarios`
---
 
 INSERT INTO `usuarios` (`id`, `nombre`, `email`, `password`, `rol`) VALUES
 (1, 'Administrador', 'admin@granos.com', '$2y$10$5uhiXILPsrMtdZPn9qiqdeXz2HeeU8axs65jRNuJeKV5VcApNc.qO', 'admin'),
@@ -239,6 +163,8 @@ INSERT INTO `usuarios` (`id`, `nombre`, `email`, `password`, `rol`) VALUES
 
 -- --------------------------------------------------------
 
+-- --------------------------------------------------------
+
 --
 -- Estructura de tabla para la tabla `ventas`
 --
@@ -251,32 +177,6 @@ CREATE TABLE `ventas` (
   `fecha_venta` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `total` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Volcado de datos para la tabla `ventas`
---
-
-INSERT INTO `ventas` (`id`, `cliente_id`, `empleado_id`, `fecha_venta`, `total`) VALUES
-(8, 2, NULL, '2025-04-21 22:12:02', '5200.00'),
-(9, 2, NULL, '2025-04-22 09:05:19', '3380.00'),
-(10, 2, NULL, '2025-04-22 10:06:30', '52.00'),
-(14, 8, NULL, '2025-04-22 15:03:38', '5096.00'),
-(15, 6, NULL, '2025-04-22 15:51:36', '122000.00'),
-(16, 6, NULL, '2025-04-24 12:13:07', '1290.00'),
-(17, 10, NULL, '2025-04-24 12:16:57', '6184.84'),
-(18, 10, NULL, '2025-04-24 12:19:44', '6184.84'),
-(19, 10, NULL, '2025-04-24 12:25:07', '6184.84'),
-(20, 2, NULL, '2025-04-24 12:25:34', '3050.00'),
-(21, 2, NULL, '2025-04-24 12:27:19', '3050.00'),
-(22, 10, NULL, '2025-04-24 12:29:45', '6604.34'),
-(24, 12, NULL, '2025-04-29 00:35:21', '3694.58'),
-(25, 12, NULL, '2025-04-29 00:41:05', '235.00'),
-(26, 2, NULL, '2025-04-29 00:52:54', '250.00'),
-(27, 2, NULL, '2025-05-14 11:20:35', '1495.00'),
-(28, 2, NULL, '2025-05-14 11:21:14', '36.58'),
-(29, 2, NULL, '2025-05-14 11:38:27', '517.00'),
-(30, 2, NULL, '2025-05-14 11:39:21', '70.50'),
-(31, 2, NULL, '2025-05-14 11:39:43', '9912.50');
 
 --
 -- Índices para tablas volcadas
@@ -308,8 +208,13 @@ ALTER TABLE `detalles_venta`
 ALTER TABLE `empleados`
   ADD PRIMARY KEY (`id`);
 
-
-
+--
+-- Indices de la tabla `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `token` (`token`);
 
 --
 -- Indices de la tabla `productos`
@@ -348,7 +253,7 @@ ALTER TABLE `ventas`
 -- AUTO_INCREMENT de la tabla `almacenes`
 --
 ALTER TABLE `almacenes`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `detalles_venta`
@@ -356,31 +261,35 @@ ALTER TABLE `almacenes`
 ALTER TABLE `detalles_venta`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
-
+--
+-- AUTO_INCREMENT de la tabla `password_resets`
+--
+ALTER TABLE `password_resets`
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `productos`
 --
 ALTER TABLE `productos`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `stock_almacen`
 --
 ALTER TABLE `stock_almacen`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `ventas`
 --
 ALTER TABLE `ventas`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
@@ -405,6 +314,11 @@ ALTER TABLE `detalles_venta`
 ALTER TABLE `empleados`
   ADD CONSTRAINT `empleados_ibfk_1` FOREIGN KEY (`id`) REFERENCES `usuarios` (`id`);
 
+--
+-- Filtros para la tabla `password_resets`
+--
+
+  ADD CONSTRAINT `password_resets_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `stock_almacen`

@@ -89,8 +89,8 @@ $productos = $sentencia->fetchAll(PDO::FETCH_OBJ);
                     <td><?php echo $producto->precio_compra ?></td>
                     <td><?php echo $producto->precio_venta ?></td>
                     <td><?php echo $producto->total_stock . " " . $producto->unidad_medida ?></td>
-                    <td><a class="btn btn-warning" href="<?php echo "./editar.php?id=" . $producto->id ?>"><i class="fa fa-edit"></i></a></td>
-                    <td><a class="btn btn-danger" href="<?php echo "./eliminar.php?id=" . $producto->id ?>"><i class="fa fa-trash"></i></a></td>
+                    <td><a id ="editar" class="btn btn-warning" href="<?php echo "./editar.php?id=" . $producto->id ?>"><i class="fa fa-edit"></i></a></td>
+                    <td><a id ="eliminar" class="btn btn-danger" href="<?php echo "./eliminar.php?id=" . $producto->id ?>"><i class="fa fa-trash"></i></a></td>
                 </tr>
             <?php } ?>
         </tbody>
